@@ -1,11 +1,3 @@
----
-title: "Reproducible Research: by Sheng-Yuan Lin"
-output: 
-  html_document:
-    keep_md: true
----
-
-
 ## Loading and preprocessing the data
 
 **The code:**
@@ -13,6 +5,7 @@ output:
 library(ggplot2)
 library(dplyr)
 library(scales)
+library(magrittr)
 
 read.csv("activity.csv") %>% tbl_df()->rawds
 as.Date(rawds$date)->rawds$date
