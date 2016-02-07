@@ -133,4 +133,4 @@ s
 ```
 ![s](figure/s.png)
 
-There are some difference between the two patters. For example, on weekdays, activity starts before 6 a.m.. On weekends, however, it starts around 8 a.m.. This might shows this guy has to work on weekdays, so he gets up early for work. Naturally, he can stay on his bed late on weekends, which he does.
+There are some differences between the two patters. For example, on weekdays, activity starts before 6 a.m.. On weekends, however, it starts around 8 a.m.. This might shows this guy has to work on weekdays, so he gets up early for work. Naturally, he can stay on his bed late on weekends, which he does.
