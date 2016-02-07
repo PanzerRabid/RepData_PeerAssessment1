@@ -36,7 +36,7 @@ p<-ggplot(dds,aes(x=date,y=TotalSteps))+
         scale_x_date(labels = date_format('%m/%d'),date_breaks = "1 week")
 p
 ```
-
+![Sample panel plot](instructions_fig/sample_panelplot.png)
 ## What is the average daily activity pattern?
 
 
