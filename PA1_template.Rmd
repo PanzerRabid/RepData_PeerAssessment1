@@ -75,6 +75,47 @@ On average, the interval with most steps is 835, which is 8:35 a.m..
 
 ## Imputing missing values
 
+**Code for finding the number of total NAs and their distributions:**
+```{r}
+sum(is.na(rawds$steps))
+rawds[is.na(rawds$steps),]->temp
+table(temp$date)[table(temp$date)!=0]->temp
+```
+There are 2304 NAs.
+2012-10-01, 2012-10-08, 2012-11-01, 2012-11-04, 2012-11-09, 2012-11-10, 2012-11-14 and 2012-11-30 equally have 288 NAs respectively. This shows that if a NA appears on any interval of a day, then other intervals will be NAs, too.
 
+The main idea of the strategy is to find the weakday of each day with all NAs, and then replace those NAs with the average of each interval on that weekday. For example, 2012-10-01 is a Saturday and the steps on that day are all NAs. Then I will replace the NAs on 2012-10-01 with average steps of Monday.
+
+```{r}
+group_by(rawds,Weekdays,interval)->avg.wids
+summarize(avg.wids,'AvgSteps'=mean(steps,na.rm=T))->avg.wids
+rawds->rawds2
+for (i in 1:nrow(rawds2)){
+        if (is.na(rawds2[i,])){
+                rawds2[i,1]<-filter(avg.wids,Weekdays==rawds2$Weekdays[i] & interval==rawds2$interval[i])$AvgSteps[1]
+        }
+}
+```
+1. The avg.wids serves like a index here, recording the average steps on every weekday
+2. Copy rawds to rawds2
+3. Replace all NAs in the raw data with information in avg.wids.
+
+**Code for calculating the average after replacing all NAs and its plot:**
+```{r}
+group_by(rawds2,date) %>% summarise('TotalSteps'=sum(steps))->dds2
+r<-ggplot(dds2,aes(x=date,y=TotalSteps))+
+        geom_bar(stat="identity",fill="red",width=0.75)+
+        scale_x_date(labels = date_format('%m/%d'),date_breaks = "1 week")
+r
+```
+![r](instructions_fig/r.png)
+
+**Code for calculating the mean and median:**
+```{r}
+mean(dds2$TotalSteps,na.rm=T)
+median(dds2$TotalSteps,na.rm=T)
+```
+
+As calculated above, the mean is 10821.21 and the median is 11015. The average after filling the NAs grows higher than before.
 
 ## Are there differences in activity patterns between weekdays and weekends?
