@@ -119,3 +119,24 @@ median(dds2$TotalSteps,na.rm=T)
 As calculated above, the mean is 10821.21 and the median is 11015. The average after filling the NAs grows higher than before.
 
 ## Are there differences in activity patterns between weekdays and weekends?
+
+****
+```{r}
+mutate(rawds2,'WeekdaysOrWeekends'=ifelse(Weekdays %in% c('Sunday', 'Saturday'),'Weekend','Weekday'))->rawds2
+as.factor(rawds2$WeekdaysOrWeekends)->rawds2$WeekdaysOrWeekends
+group_by(rawds2,WeekdaysOrWeekends,interval)->wwids
+summarize(wwids,'AvgSteps'=mean(steps))->wwids
+```
+1. Create a new factor variable to distinguish weekday and weekend day and save it in rawds2.
+2. Devide rawds2 into groups according to the factor just created and interval.
+3. Calculate the mean for each group.
+
+**Code for the plot:**
+```{r}
+s<-ggplot(wwids,aes(interval,AvgSteps))+
+        geom_line()+
+        scale_x_discrete(breaks=seq(from=0,by=200,to =2355))+
+        facet_grid(WeekdaysOrWeekends~.)
+s
+```
+![s](instructions_fig/s.png)
