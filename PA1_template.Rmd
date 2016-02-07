@@ -28,15 +28,19 @@ group_by(rawds,date) %>% summarise('TotalSteps'=sum(steps))->dds
 2. Sum up the steps for each day, and save it into a new table dds.
 
 ```{r,echo=F}
-library(ggplot2)
-library(dplyr)
-library(scales)
 p<-ggplot(dds,aes(x=date,y=TotalSteps))+
         geom_bar(stat="identity",fill="navy blue",width=0.75)+
         scale_x_date(labels = date_format('%m/%d'),date_breaks = "1 week")
 p
 ```
-![Sample panel plot](instructions_fig/sample_panelplot.png)
+![p](instructions_fig/p.png)
+
+```{r}
+mean(dds$TotalSteps,na.rm=T)
+median(dds$TotalSteps,na.rm=T)
+```
+As calculated above, the mean is 10766.19 and the median is 10765.
+
 ## What is the average daily activity pattern?
 
 
