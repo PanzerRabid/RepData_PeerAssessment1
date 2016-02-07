@@ -1,5 +1,5 @@
 ---
-title: "22Reproducible Research: Peer Assessment 1"
+title: "Reproducible Research: by Sheng-Yuan Lin"
 output: 
   html_document:
     keep_md: true
@@ -7,12 +7,33 @@ output:
 
 
 ## Loading and preprocessing the data
+```{r}
+library(ggplot2)
+library(dplyr)
+library(scales)
 
-
+read.csv("activity.csv") %>% tbl_df()->rawds
+as.Date(rawds$date)->rawds$date
+mutate(rawds,'Weekdays'=weekdays(date))->rawds
+```
+1. First, library the three packages that would be used in this project: ggplot2, dplyr and scales. 
+2. Read the data and save it into rawds. Transform the data type of column date into Date class. 
+3. Finally add a new column on the right-most of the table called Weekdays, indicating the weekday of the date. This column will become crucial later.
 
 ## What is mean total number of steps taken per day?
+```{r}
+group_by(rawds,date) %>% summarise('TotalSteps'=sum(steps))->dds
+```
+1. Devide rawds into groups according to dates.
+2. Sum up the steps for each day, and save it into a new table dds.
 
-
+```{r,echo=F}
+library(ggplot2)
+p<-ggplot(dds,aes(x=date,y=TotalSteps))+
+        geom_bar(stat="identity",fill="navy blue",width=0.75)+
+        scale_x_date(labels = date_format('%m/%d'),date_breaks = "1 week")
+p
+```
 
 ## What is the average daily activity pattern?
 
