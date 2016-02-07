@@ -29,6 +29,8 @@ group_by(rawds,date) %>% summarise('TotalSteps'=sum(steps))->dds
 
 ```{r,echo=F}
 library(ggplot2)
+library(dplyr)
+library(scales)
 p<-ggplot(dds,aes(x=date,y=TotalSteps))+
         geom_bar(stat="identity",fill="navy blue",width=0.75)+
         scale_x_date(labels = date_format('%m/%d'),date_breaks = "1 week")
